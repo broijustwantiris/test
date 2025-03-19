@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Supabase Form</title>
+</head>
+<body>
+  <h1>Submit your data</h1>
+  <form id="dataForm">
+    <label for="dataField">Enter something:</label>
+    <input type="text" id="dataField" name="dataField" required>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    document.getElementById('dataForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+      const dataField = document.getElementById('dataField').value;
+
+      // Supabase credentials
+      const SUPABASE_URL = 'https://ndemncqsbhcfewjcfevu.supabase.co';
+      const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kZW1uY3FzYmhjZmV3amNmZXZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDIzOTQ1MjMsImV4cCI6MjA1Nzk3MDUyM30.IMLsDEhHy6NxIYsrmmYE7Bp4Mfwc9-20tNzhbPPnhKA';
+
+      const response = await fetch(`${SUPABASE_URL}/rest/v1/html_files`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`
+        },
+        body: JSON.stringify({ content: dataField })
+      });
+
+      if (response.ok) {
+        alert('Data submitted successfully!');
+      } else {
+        alert('Error submitting data');
+      }
+    });
+  </script>
+</body>
+</html>
